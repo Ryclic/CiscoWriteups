@@ -1,0 +1,179 @@
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+license udi pid ISR4321/K9 sn FDO214420QQ
+license accept end user agreement
+license boot level securityk9
+!
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 192.168.2.129 255.255.255.128
+ ipv6 address 2001:DB8:ACAD:2::2/64
+ ipv6 eigrp 2
+!
+interface Loopback1
+ ip address 192.168.2.2 255.255.255.128
+!
+interface GigabitEthernet0/0/0
+ ip address 192.168.10.2 255.255.255.0
+ negotiation auto
+ ipv6 address 2001:DB8:ACAD:10::2/64
+ ipv6 eigrp 2
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ negotiation auto
+!
+interface Serial0/1/0
+ no ip address
+ shutdown
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+!
+router eigrp 2
+ network 192.168.2.0 0.0.0.127
+ network 192.168.2.128 0.0.0.127
+ eigrp router-id 2.2.2.2
+!
+router bgp 2
+ bgp router-id 2.2.2.2
+ bgp log-neighbor-changes
+ neighbor 2001:DB8:ACAD:10::1 remote-as 1
+ neighbor 2001:DB8:ACAD:10::3 remote-as 3
+ neighbor 192.168.10.1 remote-as 1
+ neighbor 192.168.10.3 remote-as 3
+ !
+ address-family ipv4
+  network 192.168.2.0 mask 255.255.255.128
+  network 192.168.2.128 mask 255.255.255.128
+  network 192.168.10.0
+  aggregate-address 192.168.2.0 255.255.255.0 summary-only
+  redistribute eigrp 2
+  no neighbor 2001:DB8:ACAD:10::1 activate
+  no neighbor 2001:DB8:ACAD:10::3 activate
+  neighbor 192.168.10.1 activate
+  neighbor 192.168.10.3 activate
+ exit-address-family
+ !
+ address-family ipv6
+  redistribute eigrp 2
+  network 2001:DB8:ACAD:2::/64
+  network 2001:DB8:ACAD:10::/64
+  neighbor 2001:DB8:ACAD:10::1 activate
+  neighbor 2001:DB8:ACAD:10::3 activate
+ exit-address-family
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+ip tftp source-interface GigabitEthernet0
+!
+!
+ipv6 router eigrp 1
+ eigrp router-id 2.2.2.2
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login
+!
+!
+end

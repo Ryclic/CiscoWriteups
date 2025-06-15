@@ -1,0 +1,135 @@
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+vtp domain cisco
+vtp mode transparent
+multilink bundle-name authenticated
+!
+!
+!
+!
+license udi pid ISR4321/K9 sn FDO214913GF
+!
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 192.168.0.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0
+ ip address 10.3.0.6 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ ip address 10.3.1.6 255.255.255.0
+ negotiation auto
+!
+interface Serial0/1/0
+ no ip address
+ shutdown
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/2/0
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet0/2/1
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+!
+router eigrp 1
+ network 192.168.0.0
+ redistribute connected
+!
+router ospf 1
+ router-id 6.6.6.6
+ area 3 nssa
+ redistribute connected subnets
+ network 10.3.0.0 0.0.255.255 area 3
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+ip tftp source-interface GigabitEthernet0
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login
+!
+!
+end
