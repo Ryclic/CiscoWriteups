@@ -1,7 +1,7 @@
 # Networking and Cyber Writeups
 A collection of my networking and cybersecurity writeups as part of the Cisco classes I took, CCNP and Cyber.
 
-These labs encompass knowledge that allow me to successfully pass these certificates:
+These labs encompass knowledge that allowed me to successfully pass these certifications:
 - Cisco CCNA
 - AWS Cloud Practitioner
 - CCST Cybersecurity
