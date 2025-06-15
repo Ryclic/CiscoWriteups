@@ -1,7 +1,7 @@
 # Networking and Cyber Writeups
 A collection of my networking and cybersecurity writeups as part of the Cisco classes I took, CCNP and Cyber.
 
-These labs encompass knowledge that allowed me to successfully pass these certifications:
+These labs encompass the knowledge that allowed me to successfully pass these certifications:
 - Cisco CCNA
 - AWS Cloud Practitioner
 - CCST Cybersecurity
@@ -27,7 +27,7 @@ Each section will follow the given structure:
 - VRF Implementation
     - GNS3, Topology Design, Subnetting, OSPF, VirtualBox
 ### AWS Cloud Content
-> **_NOTE:_** These labs were performed as part of the AWS Practitioner course online.
+> **_NOTE:_** These labs were performed as part of the AWS Cloud Practitioner course online.
 - AWS Labs 1-3
     - AWS IAM, AWS VPC, AWS EC2
 - AWS Labs 4-6
